@@ -1,5 +1,4 @@
 import { Controller, Get } from '@nestjs/common';
-import { response } from 'express';
 import { TasksService } from './tasks.service';
 
 @Controller('tasks')
