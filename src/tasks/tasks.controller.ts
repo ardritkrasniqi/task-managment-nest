@@ -4,7 +4,7 @@
  * @Last Modified by: Ardrit Krasniqi ©
  * @Last Modified time: 2021-11-08 23:37:46
  */
-import { Body, Controller, Get, Param, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { uptime } from 'process';
 import { createTaskDto } from './dto/create-task-dto';
@@ -31,5 +31,10 @@ export class TasksController {
     @Post()
     createTask(@Body() createTaskDto: createTaskDto): Task {
         return this.tasksService.createTask(createTaskDto); 
+    }
+
+    @Delete('/:id')
+    deleteTask(@Param('id') id: string): void{
+        return this.tasksService.deleteTask(id);
     }
 }
