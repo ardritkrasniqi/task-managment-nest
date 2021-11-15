@@ -33,6 +33,8 @@ export class TasksService {
             tasks = tasks.filter(task => task.title.includes(search) || task.description.includes(search))
         }
 
+        // added the secondary filter to the tasks array but it is not working
+
         return tasks;
     }
 
