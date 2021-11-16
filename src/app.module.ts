@@ -4,10 +4,12 @@
  * @Last Modified by:   Ardrit Krasniqi 
  * @Last Modified time: 2021-10-16 23:44:21 
  */
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { TasksModule } from './tasks/tasks.module';
 
 @Module({
-  imports: [TasksModule]
+  imports: [
+    TasksModule
+  ]
 })
 export class AppModule {}
