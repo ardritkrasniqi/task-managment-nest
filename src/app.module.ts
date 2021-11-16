@@ -12,8 +12,4 @@ import { TasksModule } from './tasks/tasks.module';
     TasksModule
   ]
 })
-export class AppModule implements NestModule{
-  configure(consumer: MiddlewareConsumer){
-    consumer.apply();
-  }
-}
+export class AppModule {}
