@@ -9,6 +9,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { uptime } from 'process';
 import { createTaskDto } from './dto/create-task-dto';
 import { GetTasksFilterDto } from './dto/get-tasks-filter-dto';
+import { TaskStatusValidationPipe } from './pipes/task-status-validation.pipe';
 import { Task, TaskStatus } from './task.model';
 import { TasksService } from './tasks.service';
 
@@ -34,15 +35,17 @@ export class TasksController {
 
     @Post()
     @UsePipes(ValidationPipe)
-    createTask(@Body() createTaskDto: createTaskDto): Task {
+    createTask(
+        @Body() createTaskDto: createTaskDto
+        ): Task {
         return this.tasksService.createTask(createTaskDto); 
     }
 
     @Patch('/:id/status')
     updateTaskStatus(
         @Param('id') id: string, 
-        @Body('status') status: TaskStatus
-        ): Task{
+        @Body('status', TaskStatusValidationPipe) status: TaskStatus
+        ): Task {
         return this.tasksService.updateTaskStatus(id, status);
     }
 

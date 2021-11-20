@@ -4,7 +4,7 @@
  * @Last Modified by: Ardrit Krasniqi ©
  * @Last Modified time: 2021-11-11 18:42:13
  */
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Task, TaskStatus } from './task.model';
 import { v1 as uuid } from 'uuid';
 import { createTaskDto } from './dto/create-task-dto';
@@ -36,8 +36,9 @@ export class TasksService {
 
     getTaskById(id: string): Task{
         const found =  this.tasks.find(task => task.id === id);
+        // check for the found task if not found return Exception
         if(!found){
-            throw new Error('Task not found')
+            throw new NotFoundException('Task not found')
         } else {
             return found;
         }
@@ -58,7 +59,9 @@ export class TasksService {
 
     deleteTask(id: string): void{
         // find the task with current id
-        this.tasks = this.tasks.filter(task => task.id != id)
+        const found = this.getTaskById(id);
+        this.tasks = this.tasks.filter(task => task.id != found.id);
+        
     }
 
     updateTaskStatus(id: string, status: TaskStatus): Task{
@@ -67,6 +70,5 @@ export class TasksService {
         // change the task status
         task.status = status;
         return task;
-        
     }
 }
