@@ -8,6 +8,6 @@ export class GetTasksFilterDto{
     status: TaskStatus;
 
     @IsOptional()
-    search: string;
+    search: string; // todo - implement search
 
 }
