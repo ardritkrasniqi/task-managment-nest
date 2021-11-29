@@ -13,4 +13,10 @@ export class TaskRepository extends Repository<Task> {
         const tasks = await this.find();
         return tasks;
     }
+
+
+    public async createTask(task: Task): Promise<Task> {
+        const newTask = await this.save(task);
+        return newTask;
+    }
 }
