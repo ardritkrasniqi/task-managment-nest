@@ -2,7 +2,7 @@
  * @Author: Ardrit Krasniqi 
  * @Date: 2021-10-16 23:16:40 
  * @Last Modified by: Ardrit Krasniqi ©
- * @Last Modified time: 2021-11-11 18:42:13
+ * @Last Modified time: 2021-12-02 19:12:34
  */
 import { Injectable, NotFoundException } from '@nestjs/common';
 
@@ -26,6 +26,7 @@ export class TasksService {
     }
 
     async getTasksWithFilter(filterDto: GetTasksFilterDto): Promise<Task[]> {
+        console.log("Im called from the fucking filter");
         return await this.taskRepository.getTasksWithFilter(filterDto);
     }
 
@@ -33,6 +34,10 @@ export class TasksService {
     async getTaskById(id: number): Promise<Task> {
         const found = await this.taskRepository.findOneOrFail(id);
         return found;
+    }
+
+    async createTask(createTaskDto: CreateTaskDto): Promise<Task> {
+        return await this.taskRepository.createTask(createTaskDto);
     }
 
 

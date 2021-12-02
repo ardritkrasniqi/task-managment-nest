@@ -2,7 +2,7 @@
  * @Author: Ardrit Krasniqi 
  * @Date: 2021-10-16 23:44:13 
  * @Last Modified by: Ardrit Krasniqi ©
- * @Last Modified time: 2021-11-11 18:37:29
+ * @Last Modified time: 2021-12-02 19:12:53
  */
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Query, UploadedFile, UseInterceptors, UsePipes, ValidationPipe } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -20,26 +20,26 @@ export class TasksController {
 
     constructor(private tasksService: TasksService){}
 
-    // @Get()
-    // getTasks(@Query(ValidationPipe) filterDto: GetTasksFilterDto): Task[]{
-    //     if(Object.keys(filterDto).length){
-    //         return this.tasksService.getTasksWithFilters(filterDto);
-    //     }
-    //     return  this.tasksService.getAllTasks();
-    // }
+    @Get()
+    getTasks(@Query(ValidationPipe) filterDto: GetTasksFilterDto): Promise<Task[]>{
+        if(Object.keys(filterDto).length){
+            return this.tasksService.getTasksWithFilter(filterDto);
+        }
+        return  this.tasksService.getAllTasks();
+    }
 
     @Get('/:id')
     getTaskById(@Param('id', ParseIntPipe) id: number): Promise<Task>{
         return this.tasksService.getTaskById(id);
     }
 
-    // @Post()
-    // @UsePipes(ValidationPipe)
-    // createTask(
-    //     @Body() createTaskDto: createTaskDto
-    //     ): Task {
-    //     return this.tasksService.createTask(createTaskDto); 
-    // }
+    @Post()
+    @UsePipes(ValidationPipe)
+    createTask(
+        @Body() createTaskDto: CreateTaskDto
+        ): Promise<Task>{
+        return this.tasksService.createTask(createTaskDto); 
+    }
 
     // @Patch('/:id/status')
     // updateTaskStatus(
