@@ -2,7 +2,7 @@
  * @Author: Ardrit Krasniqi 
  * @Date: 2021-10-16 23:16:40 
  * @Last Modified by: Ardrit Krasniqi ©
- * @Last Modified time: 2021-12-04 16:48:58
+ * @Last Modified time: 2021-12-04 17:17:57
  */
 import { Injectable, NotFoundException } from '@nestjs/common';
 
@@ -14,6 +14,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Task } from './task.entity';
 import { TaskStatus } from './task-status.enum';
 import { response } from 'express';
+import { stat } from 'fs';
 
 @Injectable()
 export class TasksService {
@@ -51,9 +52,9 @@ export class TasksService {
     }
 
     async updateTaskStatus(id: number, status: TaskStatus): Promise<Task> {
-        const task = new Task();
+        const task = await this.getTaskById(id);
         task.status = status;
-        this.taskRepository.update(id, task)
+        await task.save();
         return task;
     }
 }
