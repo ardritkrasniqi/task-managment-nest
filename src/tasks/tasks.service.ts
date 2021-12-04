@@ -2,7 +2,7 @@
  * @Author: Ardrit Krasniqi 
  * @Date: 2021-10-16 23:16:40 
  * @Last Modified by: Ardrit Krasniqi ©
- * @Last Modified time: 2021-12-02 19:12:34
+ * @Last Modified time: 2021-12-03 14:34:26
  */
 import { Injectable, NotFoundException } from '@nestjs/common';
 
@@ -12,6 +12,8 @@ import { GetTasksFilterDto } from './dto/get-tasks-filter-dto';
 import { TaskRepository } from './task.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Task } from './task.entity';
+import { TaskStatus } from './task-status.enum';
+import { stat } from 'fs';
 
 @Injectable()
 export class TasksService {
@@ -41,31 +43,15 @@ export class TasksService {
     }
 
 
-    // createTask(createTaskDto: createTaskDto): Task{
-    //     const { title, description } = createTaskDto
-    //     const task: Task = {
-    //         id: uuid(),
-    //         title, 
-    //         description,
-    //         status: TaskStatus.OPEN
-    //     };
 
-    //     this.tasks.push(task);
-    //     return task;
-    // }
+    async deleteTask(id: number): Promise<void> {
+        const task = this.taskRepository.findOne(id);
+        this.taskRepository.delete(id)
+    }
 
-    // deleteTask(id: string): void{
-    //     // find the task with current id
-    //     const found = this.getTaskById(id);
-    //     this.tasks = this.tasks.filter(task => task.id != found.id);
-
-    // }
-
-    // updateTaskStatus(id: string, status: TaskStatus): Task{
-    //     // get the task with the desired id
-    //     const task = this.getTaskById(id);
-    //     // change the task status
-    //     task.status = status;
-    //     return task;
-    // }
+    async updateTaskStatus(id: number, status: TaskStatus): Promise<Task> {
+        const task = new Task();
+        this.taskRepository.update(id, task)
+        return task;
+    }
 }
