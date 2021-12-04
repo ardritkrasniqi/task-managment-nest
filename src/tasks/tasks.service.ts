@@ -2,7 +2,7 @@
  * @Author: Ardrit Krasniqi 
  * @Date: 2021-10-16 23:16:40 
  * @Last Modified by: Ardrit Krasniqi ©
- * @Last Modified time: 2021-12-03 14:34:26
+ * @Last Modified time: 2021-12-04 16:48:58
  */
 import { Injectable, NotFoundException } from '@nestjs/common';
 
@@ -13,7 +13,7 @@ import { TaskRepository } from './task.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Task } from './task.entity';
 import { TaskStatus } from './task-status.enum';
-import { stat } from 'fs';
+import { response } from 'express';
 
 @Injectable()
 export class TasksService {
@@ -28,7 +28,6 @@ export class TasksService {
     }
 
     async getTasksWithFilter(filterDto: GetTasksFilterDto): Promise<Task[]> {
-        console.log("Im called from the fucking filter");
         return await this.taskRepository.getTasksWithFilter(filterDto);
     }
 
@@ -45,12 +44,15 @@ export class TasksService {
 
 
     async deleteTask(id: number): Promise<void> {
-        const task = this.taskRepository.findOne(id);
-        this.taskRepository.delete(id)
+        const result = await this.taskRepository.delete(id);
+        if (!result.affected){
+            throw new NotFoundException(`Task with ID ${id} does not exist!`);
+        }  
     }
 
     async updateTaskStatus(id: number, status: TaskStatus): Promise<Task> {
         const task = new Task();
+        task.status = status;
         this.taskRepository.update(id, task)
         return task;
     }

@@ -2,7 +2,7 @@
  * @Author: Ardrit Krasniqi 
  * @Date: 2021-10-16 23:44:13 
  * @Last Modified by: Ardrit Krasniqi ©
- * @Last Modified time: 2021-12-03 14:17:06
+ * @Last Modified time: 2021-12-04 14:46:11
  */
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Query, UploadedFile, UseInterceptors, UsePipes, ValidationPipe } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
