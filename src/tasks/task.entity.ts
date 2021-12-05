@@ -21,9 +21,9 @@ export class Task extends BaseEntity {
     })
     status: TaskStatus;
 
-    @CreateDateColumn({ type: "timestamp", default: () => 'CURRENT_TIMESTAMP(6)'})
+    @CreateDateColumn({ type: "timestamp with time zone", default: () => 'CURRENT_TIMESTAMP'})
     created_at: Date;
 
-    @UpdateDateColumn({ type:"timestamp", default: () => "CURRENT_TIMESTAMP(6)", onUpdate: "CURRENT_TIMESTAMP(6)"})
+    @UpdateDateColumn({ type:"timestamp with time zone", default: () => "CURRENT_TIMESTAMP", onUpdate: "CURRENT_TIMESTAMP"})
     updated_at: Date;
 }
