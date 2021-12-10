@@ -2,19 +2,17 @@
  * @Author: Ardrit Krasniqi 
  * @Date: 2021-10-16 23:16:40 
  * @Last Modified by: Ardrit Krasniqi ©
- * @Last Modified time: 2021-12-04 17:17:57
+ * @Last Modified time: 2021-12-10 23:23:36
  */
 import { Injectable, NotFoundException } from '@nestjs/common';
 
-import { v1 as uuid } from 'uuid';
 import { CreateTaskDto } from './dto/create-task-dto';
 import { GetTasksFilterDto } from './dto/get-tasks-filter-dto';
 import { TaskRepository } from './task.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Task } from './task.entity';
 import { TaskStatus } from './task-status.enum';
-import { response } from 'express';
-import { stat } from 'fs';
+
 
 @Injectable()
 export class TasksService {
@@ -48,7 +46,7 @@ export class TasksService {
         const result = await this.taskRepository.delete(id);
         if (!result.affected){
             throw new NotFoundException(`Task with ID ${id} does not exist!`);
-        }  
+        } 
     }
 
     async updateTaskStatus(id: number, status: TaskStatus): Promise<Task> {
