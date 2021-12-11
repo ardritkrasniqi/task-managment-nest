@@ -22,12 +22,13 @@ export class TasksService {
     ) { }
     //TODO get the tasks from the db 
 
-    async getAllTasks(): Promise<Task[]> {
-        return await this.taskRepository.find();
-    }
+   
+    async getTasks(filterDto: GetTasksFilterDto): Promise<Task[]>{
+        //get tasks either filtered or all
+        const tasks = await this.taskRepository.getTasks(filterDto);
 
-    async getTasksWithFilter(filterDto: GetTasksFilterDto): Promise<Task[]> {
-        return await this.taskRepository.getTasksWithFilter(filterDto);
+
+        return tasks;
     }
 
 
