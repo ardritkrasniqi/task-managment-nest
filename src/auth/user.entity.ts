@@ -42,11 +42,11 @@ export class User extends BaseEntity{
     last_name: string;
 
     @Column({
-        type: "number",
-        nullable: true,
-        length:3
+        type: "int",
+        nullable: false,
+        width: 3
     })
-    age: number | null;
+    age: number;
 
 
     @CreateDateColumn({
