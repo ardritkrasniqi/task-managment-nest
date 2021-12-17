@@ -1,4 +1,4 @@
-import { BaseEntity, Column, CreateDateColumn, Entity, IsNull, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { BaseEntity, BeforeInsert, Column, CreateDateColumn, Entity, IsNull, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
 export class User extends BaseEntity{
@@ -61,5 +61,4 @@ export class User extends BaseEntity{
         onUpdate: "CURRENT_TIMESTAMP"
     })
     updated_at: Date;
-
 }
