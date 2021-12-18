@@ -49,6 +49,15 @@ export class User extends BaseEntity{
     age: number;
 
 
+    @Column({
+        type: "tinyint",
+        nullable: false,
+        width: 1,
+        default: 0
+    })
+    is_active: number;
+
+
     @CreateDateColumn({
         type: "timestamp with time zone",
         default: () => 'CURRENT_TIMESTAMP'
