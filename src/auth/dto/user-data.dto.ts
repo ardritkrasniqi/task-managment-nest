@@ -1,4 +1,5 @@
 import { isNotEmpty, IsNotEmpty } from "class-validator";
+import { User } from "../user.entity";
 
 export class UserDataDto{
     @IsNotEmpty()
@@ -18,4 +19,5 @@ export class UserDataDto{
 
     @IsNotEmpty()
     is_active: number;
+
 }

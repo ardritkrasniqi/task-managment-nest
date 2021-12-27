@@ -20,7 +20,7 @@ export class AuthService {
 
 
 
-    async registerUser(registerUserDto: RegisterUserDto): Promise<User> {
+    async registerUser(registerUserDto: RegisterUserDto): Promise<void> {
         return await this.userRepository.registerUser(registerUserDto);
     } 
 
