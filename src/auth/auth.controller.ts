@@ -30,9 +30,7 @@ export class AuthController {
 
     @Post('/register')
     @UsePipes(ValidationPipe)
-    register(
-        @Body() registerUserDto: RegisterUserDto
-    ): Promise<User> {
+    register(@Body() registerUserDto: RegisterUserDto): Promise<User> {
         return this.authService.registerUser(registerUserDto);
     }
 

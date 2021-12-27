@@ -1,4 +1,4 @@
-import { BaseEntity, Column, CreateDateColumn, Entity, IsNull, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity('users')
 export class User extends BaseEntity{
@@ -40,14 +40,6 @@ export class User extends BaseEntity{
         length:100
     })
     last_name: string;
-
-    @Column({
-        type: "int",
-        nullable: true,
-        width: 3
-    })
-    age: number;
-
 
     @Column({
         type: "int",

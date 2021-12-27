@@ -17,8 +17,5 @@ export class UserDataDto{
     last_name: string;
 
     @IsNotEmpty()
-    age: number;
-
-    @IsNotEmpty()
     is_active: number;
 }

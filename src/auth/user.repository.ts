@@ -31,14 +31,11 @@ export class UserRepository extends Repository<User>{
         } else {
             return new ReturnFunctions().toUserDto(user)
         }
-
-        
-        
     }
 
 
 
-    async registerUser(registerUserDto: RegisterUserDto){
+    async registerUser(registerUserDto: RegisterUserDto): Promise<User>{
         // deconstruct the registration dto
         const { username, password, email, first_name, last_name, age} = registerUserDto;
         const user = new User;
@@ -51,10 +48,18 @@ export class UserRepository extends Repository<User>{
         user.email = email;
         user.first_name = first_name;
         user.last_name = last_name;
-        user.age = age;
         // save the user to db
         await user.save();
-        return user;
+
+        const registeredUser = new User;
+        registeredUser.id = user.id;
+        registeredUser.username = user.username;
+        registeredUser.email = user.email;
+        registeredUser.first_name = user.first_name;
+        registeredUser.last_name = user.last_name;
+        registeredUser.is_active = user.is_active;
+
+        return registeredUser;
     }
     
 }
