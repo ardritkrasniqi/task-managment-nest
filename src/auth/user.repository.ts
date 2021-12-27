@@ -5,13 +5,14 @@ import { User } from "./user.entity";
 import * as bcrypt from 'bcrypt';
 import { Task } from "src/tasks/task.entity";
 import { UserLoginDto } from "./dto/user-login.dto";
-import { HttpException } from "@nestjs/common";
+import { HttpException, HttpStatus } from "@nestjs/common";
+import { ReturnFunctions } from "src/auth/return-functions";
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User>{
 
 
-    async login(userLoginDto: UserLoginDto){
+    async login(userLoginDto: UserLoginDto): Promise<User>{
         // deconctruct the user login dto
         const { username, password} = userLoginDto;
         // check if a user with this username exists
@@ -20,10 +21,18 @@ export class UserRepository extends Repository<User>{
         if(!user){
             throw new HttpException('User does not exist', 401);
         }  else if(user.is_active != 1){
-            throw new HttpException('Your email is not verified!', 400);
+            throw new HttpException('Your email is not verified!', HttpStatus.FORBIDDEN);
+        }
+        // check if the input password matches the current password
+        const isValidPassword = await bcrypt.compare(user.password, password);
+
+        if(!isValidPassword){
+            throw new HttpException('Invalid credentials!', HttpStatus.UNAUTHORIZED);
+        } else {
+            return new ReturnFunctions().toUserDto(user)
         }
 
-        // check if the input password matches the current password
+        
         
     }
 

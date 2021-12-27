@@ -1,4 +1,5 @@
 import { Body, Controller, Get, Param, Post, UsePipes, ValidationPipe } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { AuthService } from './auth.service';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { UserLoginDto } from './dto/user-login.dto';
@@ -8,8 +9,13 @@ import { UserRepository } from './user.repository';
 @Controller('auth')
 export class AuthController {
     constructor(
-        private authService: AuthService
+        private authService: AuthService,
     ) { }
+
+    @Get('/test')
+    testFunction(){
+        console.log(process.env.DATABASE_PASSWORD);
+    }
 
 
 
@@ -31,13 +37,13 @@ export class AuthController {
     }
 
 
-    @Post('/user/verify')
-    @UsePipes(ValidationPipe)
-    verifyAccount(
-        @Param('token') token: string
-    ): Promise<void>{
-        return this.authService.verifyAccount(token);
-    }
+    // @Post('/user/verify')
+    // @UsePipes(ValidationPipe)
+    // verifyAccount(
+    //     @Param('token') token: string
+    // ): Promise<void>{
+    //     return this.authService.verifyAccount(token);
+    // }
 
 
 }
