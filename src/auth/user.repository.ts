@@ -28,7 +28,7 @@ export class UserRepository extends Repository<User>{
         const isValidPassword = (await bcrypt.hash(password, user.salt) === user.password) ? true : false;
 
         if(!isValidPassword){
-            throw new UnauthorizedException("Username or Password is not valid!");
+            throw new UnauthorizedException("Invalid credentials!");
         } else {
             return toUserLoginDataDto(user);
         }
