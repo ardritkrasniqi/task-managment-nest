@@ -5,8 +5,7 @@ import { User } from "./user.entity";
 import * as bcrypt from 'bcrypt';
 import { UserLoginDto } from "./dto/user-login.dto";
 import { ConflictException, ForbiddenException, HttpException, HttpStatus, InternalServerErrorException, UnauthorizedException } from "@nestjs/common";
-import { UserDataDto } from "./dto/user-data.dto";
-import { response } from "express";
+
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User>{
@@ -16,7 +15,7 @@ export class UserRepository extends Repository<User>{
         // deconctruct the user login dto
         const { username, password} = userLoginDto;
         // check if a user with this username exists
-        const user = await this.findOne({where: {username}})
+        const user = await this.findOne( {username} )
 
         if(!user){
             throw new HttpException('User does not exist', 401);
@@ -40,8 +39,8 @@ export class UserRepository extends Repository<User>{
         const { username, password, email, first_name, last_name, age} = registerUserDto;
         const user = new User;
 
-        
         // bind the data from the deconstucted dto
+        
         user.username = username;
         // the generated salt from bcrypt
         const salt = await bcrypt.genSalt();
@@ -55,6 +54,7 @@ export class UserRepository extends Repository<User>{
             await user.save();
         } catch (error) {
             // just a simple check if its a server or client error, for some more clarity
+            // code 23505 throws when if there is a duplicate entry for username
             if(error.code == "23505"){
                 throw new ConflictException("Username already exists!");
             } else {
