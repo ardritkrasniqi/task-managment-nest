@@ -2,6 +2,7 @@ import { Body, Controller, Get, Param, Post, UsePipes, ValidationPipe } from '@n
 import { ConfigService } from '@nestjs/config';
 import { AuthService } from './auth.service';
 import { RegisterUserDto } from './dto/register-user.dto';
+import { UserDataDto } from './dto/user-data.dto';
 import { UserLoginDto } from './dto/user-login.dto';
 import { User } from './user.entity';
 import { UserRepository } from './user.repository';
@@ -23,7 +24,7 @@ export class AuthController {
     @UsePipes(ValidationPipe)
     login(
         @Body() userLoginDto: UserLoginDto
-    ): Promise<User>{
+    ): Promise<UserDataDto>{
         return this.authService.login(userLoginDto);
     }
 

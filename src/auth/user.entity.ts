@@ -50,6 +50,12 @@ export class User extends BaseEntity{
     })
     is_active: number;
 
+    @Column({
+        type: "varchar",
+        nullable: false,
+    })
+    salt: string;
+
 
     @CreateDateColumn({
         type: "timestamp with time zone",

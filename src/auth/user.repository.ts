@@ -5,30 +5,32 @@ import { User } from "./user.entity";
 import * as bcrypt from 'bcrypt';
 import { UserLoginDto } from "./dto/user-login.dto";
 import { ConflictException, ForbiddenException, HttpException, HttpStatus, InternalServerErrorException, UnauthorizedException } from "@nestjs/common";
+import { toUserLoginDataDto } from "src/shared/mapper";
+import { UserDataDto } from "./dto/user-data.dto";
 
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User>{
 
 
-    async login(userLoginDto: UserLoginDto): Promise<User>{
+    async login(userLoginDto: UserLoginDto): Promise<UserDataDto>{
         // deconctruct the user login dto
         const { username, password} = userLoginDto;
         // check if a user with this username exists
         const user = await this.findOne( {username} )
-
+        
         if(!user){
             throw new HttpException('User does not exist', 401);
         }  else if(user.is_active != 1){
             throw new ForbiddenException('Your email is not verified!');
         }
         // check if the input password matches the current password
-        const isValidPassword = await bcrypt.compare(user.password, password);
+        const isValidPassword = (await bcrypt.hash(password, user.salt) === user.password) ? true : false;
 
         if(!isValidPassword){
             throw new UnauthorizedException("Username or Password is not valid!");
         } else {
-            return user;
+            return toUserLoginDataDto(user);
         }
     }
 
@@ -48,6 +50,7 @@ export class UserRepository extends Repository<User>{
         user.email = email;
         user.first_name = first_name;
         user.last_name = last_name;
+        user.salt = salt;
         // save the user to db
         
         try {

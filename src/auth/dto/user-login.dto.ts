@@ -7,7 +7,4 @@ export class UserLoginDto{
 
     @IsNotEmpty()
     readonly password: string
-
-
-
 }

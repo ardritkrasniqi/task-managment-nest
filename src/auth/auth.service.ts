@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { RegisterUserDto } from './dto/register-user.dto';
+import { UserDataDto } from './dto/user-data.dto';
 import { UserLoginDto } from './dto/user-login.dto';
 import { User } from './user.entity';
 import { UserRepository } from './user.repository';
@@ -14,7 +15,7 @@ export class AuthService {
     ){}
 
 
-    async login(userLoginDto: UserLoginDto): Promise<User> {
+    async login(userLoginDto: UserLoginDto): Promise<UserDataDto> {
         return await this.userRepository.login(userLoginDto)
     }
 
