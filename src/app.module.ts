@@ -2,7 +2,7 @@
  * @Author: Ardrit Krasniqi 
  * @Date: 2021-10-16 23:44:21 
  * @Last Modified by: Ardrit Krasniqi ©
- * @Last Modified time: 2021-12-08 17:36:36
+ * @Last Modified time: 2021-12-29 17:28:31
  */
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
@@ -13,12 +13,19 @@ import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     TasksModule,
-    TypeOrmModule.forRoot(typeOrmConfig),
-    ConfigModule.forRoot({
-      isGlobal: true
+    AuthModule,
+    TypeOrmModule.forRoot({
+      type: "postgres",
+      host: "localhost",
+      port: 5432,
+      username: "root",
+      password: "papaki",
+      database: "taskmanagement_db",
+      entities: [__dirname + "/../**/*.entity.{js,ts}"], 
+      synchronize: true,
     }),
-    AuthModule
   ]
 })
 export class AppModule {}

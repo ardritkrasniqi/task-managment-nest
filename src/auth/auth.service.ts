@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { UserDataDto } from './dto/user-data.dto';
@@ -11,7 +12,8 @@ export class AuthService {
 
     constructor(
         @InjectRepository(UserRepository)
-        private userRepository: UserRepository
+        private userRepository: UserRepository,
+        private jwtService: JwtService
     ){}
 
 

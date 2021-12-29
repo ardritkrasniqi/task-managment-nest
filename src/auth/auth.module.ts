@@ -9,12 +9,15 @@ import { PassportModule } from '@nestjs/passport';
 @Module({
 
   imports: [
-    PassportModule.register({defaultStrategy: 'jwt'}),
+    PassportModule.register({
+      defaultStrategy: 'jwt', 
+      property: 'user', 
+      session: false
+    }),
     JwtModule.register({
       secret: 'justARandomSecret',
       signOptions: {
         expiresIn: 36000,
-
       }
     }),
     TypeOrmModule.forFeature([UserRepository])
