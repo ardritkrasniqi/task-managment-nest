@@ -3,8 +3,9 @@ import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { UserRepository } from './user.repository';
+import { UserRepository } from '../users/user.repository';
 import { PassportModule } from '@nestjs/passport';
+import { UsersModule } from 'src/users/users.module';
 
 @Module({
 
@@ -20,7 +21,8 @@ import { PassportModule } from '@nestjs/passport';
         expiresIn: 36000,
       }
     }),
-    TypeOrmModule.forFeature([UserRepository])
+    TypeOrmModule.forFeature([UserRepository]),
+    UsersModule
   ],
 
   controllers: [AuthController],

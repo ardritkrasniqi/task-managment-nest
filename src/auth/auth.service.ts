@@ -5,8 +5,8 @@ import { toUserLoginDataDto } from 'src/shared/mapper';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { UserDataDto } from './dto/user-data.dto';
 import { UserLoginDto } from './dto/user-login.dto';
-import { User } from './user.entity';
-import { UserRepository } from './user.repository';
+import { User } from '../users/user.entity';
+import { UserRepository } from '../users/user.repository';
 
 @Injectable()
 export class AuthService {
