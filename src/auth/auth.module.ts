@@ -11,11 +11,11 @@ import { PassportModule } from '@nestjs/passport';
   imports: [
     PassportModule.register({
       defaultStrategy: 'jwt', 
-      property: 'user', 
+      property: 'users', 
       session: false
     }),
     JwtModule.register({
-      secret: 'justARandomSecret',
+      secret: "stupid secret key",
       signOptions: {
         expiresIn: 36000,
       }

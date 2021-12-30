@@ -1,11 +1,13 @@
-import { Body, Controller, Get, Param, Post, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Res, StreamableFile, UsePipes, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { createReadStream } from 'fs';
+import { join } from 'path';
 import { AuthService } from './auth.service';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { UserDataDto } from './dto/user-data.dto';
 import { UserLoginDto } from './dto/user-login.dto';
-import { User } from './user.entity';
-import { UserRepository } from './user.repository';
+import { User } from '../users/user.entity';
+import { UserRepository } from '../users/user.repository';
 
 @Controller('auth')
 export class AuthController {
@@ -14,9 +16,10 @@ export class AuthController {
     ) { }
 
     @Get('/test')
-    testFunction(){
-        console.log(process.env.DATABASE_PASSWORD);
-    }
+    getFile(): StreamableFile {
+        const file = createReadStream(join(process.cwd(), '.env'));
+        return new StreamableFile(file);
+      }
 
 
 

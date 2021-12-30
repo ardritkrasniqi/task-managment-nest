@@ -1,5 +1,4 @@
 import { isNotEmpty, IsNotEmpty } from "class-validator";
-import { User } from "../user.entity";
 
 export class UserDataDto{
     @IsNotEmpty()

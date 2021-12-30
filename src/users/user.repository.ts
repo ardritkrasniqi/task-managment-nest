@@ -1,12 +1,12 @@
 import { hash } from "bcrypt";
 import { EntityRepository, Repository } from "typeorm";
-import { RegisterUserDto } from "./dto/register-user.dto";
+import { RegisterUserDto } from "../auth/dto/register-user.dto";
 import { User } from "./user.entity";
 import * as bcrypt from 'bcrypt';
-import { UserLoginDto } from "./dto/user-login.dto";
+import { UserLoginDto } from "../auth/dto/user-login.dto";
 import { ConflictException, ForbiddenException, HttpException, HttpStatus, InternalServerErrorException, UnauthorizedException } from "@nestjs/common";
 import { toUserLoginDataDto } from "src/shared/mapper";
-import { UserDataDto } from "./dto/user-data.dto";
+import { UserDataDto } from "../auth/dto/user-data.dto";
 
 
 @EntityRepository(User)

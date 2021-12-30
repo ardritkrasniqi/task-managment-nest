@@ -1,6 +1,6 @@
 import { UserDataDto } from "src/auth/dto/user-data.dto";
 import { UserLoginDto } from "src/auth/dto/user-login.dto";
-import { User } from "src/auth/user.entity";
+import { User } from "src/users/user.entity";
 
 export const toUserLoginDataDto = (data: User): UserDataDto => {
     // here i do the mapping from user entity to user data dto to filter the sensitive data

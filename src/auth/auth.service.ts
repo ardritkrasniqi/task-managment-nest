@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Req } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
+import { toUserLoginDataDto } from 'src/shared/mapper';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { UserDataDto } from './dto/user-data.dto';
 import { UserLoginDto } from './dto/user-login.dto';
@@ -18,6 +19,8 @@ export class AuthService {
 
 
     async login(userLoginDto: UserLoginDto): Promise<UserDataDto> {
+        const payload = userLoginDto;
+        let token = this.jwtService.sign(userLoginDto.username);
         return await this.userRepository.login(userLoginDto)
     }
 
