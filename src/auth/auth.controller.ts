@@ -1,13 +1,16 @@
+/*
+ * @Author: Ardrit Krasniqi © 
+ * @Date: 2022-01-03 15:39:21 
+ * @Last Modified by:   Ardrit Krasniqi © 
+ * @Last Modified time: 2022-01-03 15:39:21 
+ */
 import { Body, Controller, Get, Param, Post, Res, StreamableFile, UsePipes, ValidationPipe } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { createReadStream } from 'fs';
 import { join } from 'path';
 import { AuthService } from './auth.service';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { UserDataDto } from './dto/user-data.dto';
 import { UserLoginDto } from './dto/user-login.dto';
-import { User } from '../users/user.entity';
-import { UserRepository } from '../users/user.repository';
 
 @Controller('auth')
 export class AuthController {

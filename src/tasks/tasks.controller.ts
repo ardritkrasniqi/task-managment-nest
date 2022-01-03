@@ -2,9 +2,9 @@
  * @Author: Ardrit Krasniqi 
  * @Date: 2021-10-16 23:44:13 
  * @Last Modified by: Ardrit Krasniqi ©
- * @Last Modified time: 2021-12-04 14:46:11
+ * @Last Modified time: 2021-12-30 17:39:24
  */
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Query, UploadedFile, UseInterceptors, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Logger, Param, ParseIntPipe, Patch, Post, Query, UploadedFile, UseInterceptors, UsePipes, ValidationPipe } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { uptime } from 'process';
 import { CreateTaskDto } from './dto/create-task-dto';
@@ -18,7 +18,8 @@ import { TaskStatus } from './task-status.enum';
 
 @Controller('/tasks')
 export class TasksController {
-
+    private logger = new Logger('TasksController');
+    
     constructor(private tasksService: TasksService) { }
 
     

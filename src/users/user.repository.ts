@@ -1,4 +1,9 @@
-import { hash } from "bcrypt";
+/*
+ * @Author: Ardrit Krasniqi © 
+ * @Date: 2022-01-03 15:39:05 
+ * @Last Modified by:   Ardrit Krasniqi © 
+ * @Last Modified time: 2022-01-03 15:39:05 
+ */
 import { EntityRepository, Repository } from "typeorm";
 import { RegisterUserDto } from "../auth/dto/register-user.dto";
 import { User } from "./user.entity";
@@ -7,6 +12,7 @@ import { UserLoginDto } from "../auth/dto/user-login.dto";
 import { ConflictException, ForbiddenException, HttpException, HttpStatus, InternalServerErrorException, UnauthorizedException } from "@nestjs/common";
 import { toUserLoginDataDto } from "src/shared/mapper";
 import { UserDataDto } from "../auth/dto/user-data.dto";
+import PostgresErrorCodes from "src/database/postgresErrorCodes.enum";
 
 
 @EntityRepository(User)
@@ -58,7 +64,7 @@ export class UserRepository extends Repository<User>{
         } catch (error) {
             // just a simple check if its a server or client error, for some more clarity
             // code 23505 throws when if there is a duplicate entry for username
-            if(error.code == "23505"){
+            if(error?.code === PostgresErrorCodes.UNIQUE_VALUE_ERROR){
                 throw new ConflictException("Username already exists!");
             } else {
                 throw new InternalServerErrorException();

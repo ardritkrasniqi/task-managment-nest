@@ -1,3 +1,9 @@
+/*
+ * @Author: Ardrit Krasniqi © 
+ * @Date: 2022-01-03 15:39:33 
+ * @Last Modified by:   Ardrit Krasniqi © 
+ * @Last Modified time: 2022-01-03 15:39:33 
+ */
 import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from "typeorm";
 
 @Entity('users')
