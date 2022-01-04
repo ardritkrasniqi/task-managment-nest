@@ -1,15 +1,15 @@
 /*
  * @Author: Ardrit Krasniqi © 
  * @Date: 2022-01-03 15:39:05 
- * @Last Modified by:   Ardrit Krasniqi © 
- * @Last Modified time: 2022-01-03 15:39:05 
+ * @Last Modified by: Ardrit Krasniqi ©
+ * @Last Modified time: 2022-01-04 15:07:14
  */
 import { EntityRepository, Repository } from "typeorm";
 import { RegisterUserDto } from "../auth/dto/register-user.dto";
 import { User } from "./user.entity";
 import * as bcrypt from 'bcrypt';
 import { UserLoginDto } from "../auth/dto/user-login.dto";
-import { ConflictException, ForbiddenException, HttpException, HttpStatus, InternalServerErrorException, UnauthorizedException } from "@nestjs/common";
+import { ConflictException, ForbiddenException, HttpException, HttpStatus, InternalServerErrorException, NotFoundException, UnauthorizedException } from "@nestjs/common";
 import { toUserLoginDataDto } from "src/shared/mapper";
 import { UserDataDto } from "../auth/dto/user-data.dto";
 import PostgresErrorCodes from "src/database/postgresErrorCodes.enum";
@@ -19,57 +19,14 @@ import PostgresErrorCodes from "src/database/postgresErrorCodes.enum";
 export class UserRepository extends Repository<User>{
 
 
-    async login(userLoginDto: UserLoginDto): Promise<UserDataDto>{
-        // deconctruct the user login dto
-        const { username, password} = userLoginDto;
-        // check if a user with this username exists
-        const user = await this.findOne( {username} )
-        
-        if(!user){
-            throw new HttpException('User does not exist', 401);
-        }  else if(user.is_active != 1){
-            throw new ForbiddenException('Your email is not verified!');
+    async getById(id: number){
+        const user = this.findOne({ id });
+        if (user){
+            return user;
         }
-        // check if the input password matches the current password
-        const isValidPassword = (await bcrypt.hash(password, user.salt) === user.password) ? true : false;
-
-        if(!isValidPassword){
-            throw new UnauthorizedException("Invalid credentials!");
-        } else {
-            return toUserLoginDataDto(user);
-        }
+        throw new NotFoundException('User with this id does not exist!');
     }
 
-
-
-    async registerUser(registerUserDto: RegisterUserDto): Promise<void>{
-        // deconstruct the registration dto
-        const { username, password, email, first_name, last_name, age} = registerUserDto;
-        const user = new User;
-
-        // bind the data from the deconstucted dto
-        
-        user.username = username;
-        // the generated salt from bcrypt
-        const salt = await bcrypt.genSalt();
-        user.password = await bcrypt.hash(password, salt);
-        user.email = email;
-        user.first_name = first_name;
-        user.last_name = last_name;
-        user.salt = salt;
-        // save the user to db
-        
-        try {
-            await user.save();
-        } catch (error) {
-            // just a simple check if its a server or client error, for some more clarity
-            // code 23505 throws when if there is a duplicate entry for username
-            if(error?.code === PostgresErrorCodes.UNIQUE_VALUE_ERROR){
-                throw new ConflictException("Username already exists!");
-            } else {
-                throw new InternalServerErrorException();
-            }
-        }
-    }
+    
     
 }

@@ -6,6 +6,7 @@ import { AuthService } from './auth.service';
 import { UserRepository } from '../users/user.repository';
 import { PassportModule } from '@nestjs/passport';
 import { UsersModule } from 'src/users/users.module';
+import { AuthRepository } from './auth.repository';
 
 @Module({
 
@@ -21,7 +22,7 @@ import { UsersModule } from 'src/users/users.module';
         expiresIn: 36000,
       }
     }),
-    TypeOrmModule.forFeature([UserRepository]),
+    TypeOrmModule.forFeature([AuthRepository]),
     UsersModule
   ],
 

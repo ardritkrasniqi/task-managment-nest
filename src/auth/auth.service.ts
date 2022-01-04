@@ -1,26 +1,26 @@
 /*
  * @Author: Ardrit Krasniqi © 
  * @Date: 2022-01-03 15:38:43 
- * @Last Modified by:   Ardrit Krasniqi © 
- * @Last Modified time: 2022-01-03 15:38:43 
+ * @Last Modified by: Ardrit Krasniqi ©
+ * @Last Modified time: 2022-01-04 14:39:32
  */
 import { Injectable, Req } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
-import { toUserLoginDataDto } from 'src/shared/mapper';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { UserDataDto } from './dto/user-data.dto';
 import { UserLoginDto } from './dto/user-login.dto';
-import { User } from '../users/user.entity';
-import { UserRepository } from '../users/user.repository';
+import { AuthRepository } from './auth.repository';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
 
     constructor(
-        @InjectRepository(UserRepository)
-        private userRepository: UserRepository,
-        private jwtService: JwtService
+        @InjectRepository(AuthRepository)
+        private readonly userRepository: AuthRepository,
+        private readonly jwtService: JwtService,
+        private readonly configService: ConfigService
     ){}
 
 
@@ -33,7 +33,7 @@ export class AuthService {
 
 
     async registerUser(registerUserDto: RegisterUserDto): Promise<void> {
-        return await this.userRepository.registerUser(registerUserDto);
+        return await this.registerUser(registerUserDto);
     } 
 
 
