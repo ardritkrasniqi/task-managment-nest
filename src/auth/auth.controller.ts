@@ -1,12 +1,13 @@
 /*
  * @Author: Ardrit Krasniqi © 
  * @Date: 2022-01-03 15:39:21 
- * @Last Modified by:   Ardrit Krasniqi © 
- * @Last Modified time: 2022-01-03 15:39:21 
+ * @Last Modified by: Ardrit Krasniqi ©
+ * @Last Modified time: 2022-01-04 16:49:54
  */
-import { Body, Controller, Get, Param, Post, Res, StreamableFile, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, ClassSerializerInterceptor, Controller, Get, Param, Post, Res, StreamableFile, UsePipes, ValidationPipe } from '@nestjs/common';
 import { createReadStream } from 'fs';
 import { join } from 'path';
+import { User } from 'src/users/user.entity';
 import { AuthService } from './auth.service';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { UserDataDto } from './dto/user-data.dto';
@@ -25,12 +26,11 @@ export class AuthController {
       }
 
 
-
     @Post('/login')
     @UsePipes(ValidationPipe)
     login(
         @Body() userLoginDto: UserLoginDto
-    ): Promise<UserDataDto>{
+    ): Promise<User>{
         return this.authService.login(userLoginDto);
     }
 

@@ -4,12 +4,6 @@ export class RegisterUserDto {
 
 
     @IsNotEmpty()
-    @IsString()
-    @MinLength(4)
-    @MaxLength(100)
-    username: string;
-
-    @IsNotEmpty()
     @MinLength(8)
     @MaxLength(255)
     @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/, {
@@ -27,7 +21,4 @@ export class RegisterUserDto {
     @IsNotEmpty()
     last_name: string;
 
-    @IsInt()
-    @IsOptional()
-    age: number;
 }

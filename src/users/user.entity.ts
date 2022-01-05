@@ -2,32 +2,17 @@
  * @Author: Ardrit Krasniqi © 
  * @Date: 2022-01-03 15:39:33 
  * @Last Modified by: Ardrit Krasniqi ©
- * @Last Modified time: 2022-01-04 16:12:17
+ * @Last Modified time: 2022-01-04 17:08:36
  */
-import { Exclude } from "class-transformer";
+
 import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from "typeorm";
 
 @Entity('users')
-@Unique(['username'])
+@Unique(['email'])
 export class User extends BaseEntity{
 
     @PrimaryGeneratedColumn()
     id:number;
-
-    @Column({
-        type: "varchar",
-        length: 100,
-        nullable: false,
-    })
-    username: string;
-
-    @Column({
-        type: "varchar",
-        length: 255,
-        nullable: false
-    })
-    @Exclude()
-    password: string;
 
     @Column({
         type: "varchar",
@@ -36,6 +21,15 @@ export class User extends BaseEntity{
     })
     email: string;
 
+    
+    @Column({
+        type: "varchar",
+        length: 255,
+        nullable: false
+    })
+    password: string;
+
+   
     @Column({
         type: "varchar",
         nullable: false,

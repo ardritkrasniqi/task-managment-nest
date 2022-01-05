@@ -3,7 +3,6 @@ import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { UserRepository } from '../users/user.repository';
 import { PassportModule } from '@nestjs/passport';
 import { UsersModule } from 'src/users/users.module';
 import { AuthRepository } from './auth.repository';
@@ -17,15 +16,14 @@ import { AuthRepository } from './auth.repository';
       session: false
     }),
     JwtModule.register({
-      secret: "stupid secret key",
+      secret: process.env.SECRETKEY,
       signOptions: {
-        expiresIn: 36000,
+        expiresIn: process.env.EXPIRESIN,
       }
     }),
     TypeOrmModule.forFeature([AuthRepository]),
     UsersModule
   ],
-
   controllers: [AuthController],
   providers: [AuthService]
 })
