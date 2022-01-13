@@ -5,12 +5,14 @@ import { UserLoginDto } from "./dto/user-login.dto";
 import * as bcrypt from 'bcrypt';
 import { RegisterUserDto } from "./dto/register-user.dto";
 import PostgresErrorCodes from "src/database/postgresErrorCodes.enum";
+import { UserDataDto } from "./dto/user-data.dto";
+import { RegistrationStatus } from "./interfaces/registration-status.interface";
 
 @EntityRepository(User)
 export class AuthRepository extends Repository<User>{
    
 
-    async login(userLoginDto: UserLoginDto): Promise<User>{
+    async login(userLoginDto: UserLoginDto): Promise<UserDataDto>{
         // deconctruct the user login dto
         const { email, password} = userLoginDto;
         // check if a user with this username exists
@@ -33,7 +35,7 @@ export class AuthRepository extends Repository<User>{
 
 
 
-    async registerUser(registerUserDto: RegisterUserDto): Promise<void>{
+    async registerUser(registerUserDto: RegisterUserDto): Promise<RegistrationStatus>{
         // deconstruct the registration dto
         const { email, password, first_name, last_name} = registerUserDto;
         const user = new User;

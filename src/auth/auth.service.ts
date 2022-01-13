@@ -14,6 +14,7 @@ import { AuthRepository } from './auth.repository';
 import { ConfigService } from '@nestjs/config';
 import { User } from 'src/users/user.entity';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
+import { RegistrationStatus } from './interfaces/registration-status.interface';
 
 @Injectable()
 export class AuthService {
@@ -26,16 +27,19 @@ export class AuthService {
     ) { }
 
 
-    async login(userLoginDto: UserLoginDto): Promise<User> {
-        const payload = userLoginDto;
-        let token = this.jwtService.sign(userLoginDto.email);
-        return await this.authRepository.login(userLoginDto)
+    async login(userLoginDto: UserLoginDto): Promise<UserDataDto> {
+        let user = await this.authRepository.login(userLoginDto);
+        const token = this._createToken(user);
+
+        user = [token, ...user]
+
+        return user;
     }
 
 
 
-    async registerUser(registerUserDto: RegisterUserDto): Promise<void> {
-        return await this.authRepository.registerUser(registerUserDto);
+    async registerUser(registerUserDto: RegisterUserDto): Promise<RegistrationStatus> {
+        const  await this.authRepository.registerUser(registerUserDto);
     }
 
 
