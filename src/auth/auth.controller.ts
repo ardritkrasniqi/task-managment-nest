@@ -9,9 +9,11 @@ import { createReadStream } from 'fs';
 import { join } from 'path';
 import { User } from 'src/users/user.entity';
 import { AuthService } from './auth.service';
-import { RegisterUserDto } from './dto/register-user.dto';
-import { UserDataDto } from './dto/user-data.dto';
-import { UserLoginDto } from './dto/user-login.dto';
+import { RegisterUserDto } from '../users/dto/register-user.dto';
+import { UserDataDto } from '../users/dto/user-data.dto';
+import { UserLoginDto } from '../users/dto/user-login.dto';
+import { RegistrationStatus } from './interfaces/registration-status.interface';
+import { LoginStatus } from './interfaces/login.interface';
 
 @Controller('auth')
 export class AuthController {
@@ -30,14 +32,14 @@ export class AuthController {
     @UsePipes(ValidationPipe)
     login(
         @Body() userLoginDto: UserLoginDto
-    ): Promise<User>{
+    ): Promise<LoginStatus>{
         return this.authService.login(userLoginDto);
     }
 
 
     @Post('/register')
     @UsePipes(ValidationPipe)
-    register(@Body() registerUserDto: RegisterUserDto): Promise<void> {
+    register(@Body() registerUserDto: RegisterUserDto): Promise<RegistrationStatus> {
         return this.authService.registerUser(registerUserDto);
     }
 

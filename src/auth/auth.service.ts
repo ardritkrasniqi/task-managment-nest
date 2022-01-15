@@ -7,47 +7,56 @@
 import { Injectable, Req } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
-import { RegisterUserDto } from './dto/register-user.dto';
-import { UserDataDto } from './dto/user-data.dto';
-import { UserLoginDto } from './dto/user-login.dto';
-import { AuthRepository } from './auth.repository';
+import { RegisterUserDto } from '../users/dto/register-user.dto';
+import { UserDataDto } from '../users/dto/user-data.dto';
+import { UserLoginDto } from '../users/dto/user-login.dto';
 import { ConfigService } from '@nestjs/config';
 import { User } from 'src/users/user.entity';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { RegistrationStatus } from './interfaces/registration-status.interface';
+import { LoginStatus } from './interfaces/login.interface';
+import { UserRepository } from 'src/users/user.repository';
+import { Connection } from 'typeorm';
 
 @Injectable()
 export class AuthService {
 
+    private userRepository: UserRepository;
+
     constructor(
-        @InjectRepository(AuthRepository)
-        private readonly authRepository: AuthRepository,
-        private readonly jwtService: JwtService,
-        private readonly configService: ConfigService
-    ) { }
+        @InjectRepository(UserRepository)
+        private readonly configService: ConfigService,
+        private readonly connection: Connection,
+        private jwtService: JwtService
+    ) {
+        this.userRepository = this.connection.getCustomRepository(UserRepository);
+    }
 
 
-    async login(userLoginDto: UserLoginDto): Promise<UserDataDto> {
-        let user = await this.authRepository.login(userLoginDto);
+    async login(userLoginDto: UserLoginDto): Promise<LoginStatus> {
+        const user = await this.userRepository.findByLogin(userLoginDto);
+        // token generation and token signature
         const token = this._createToken(user);
 
-        user = [token, ...user]
-
-        return user;
+        // construct the login status 
+        return {
+            email: user.email,
+            ...token
+        };
     }
 
 
 
     async registerUser(registerUserDto: RegisterUserDto): Promise<RegistrationStatus> {
-        const  await this.authRepository.registerUser(registerUserDto);
+        return await this.userRepository.registerUser(registerUserDto);
     }
 
 
     private _createToken({ email }: UserDataDto): any {
-        const expiresIn = process.env.EXPIRESIN;
+        const expiresIn = this.configService.get('EXPIRES_IN');
 
         const user: JwtPayload = { email };
-        const accessToken = this.jwtService.sign(user);
+        const accessToken = this.jwtService.sign(email);
         return {
             expiresIn,
             accessToken,

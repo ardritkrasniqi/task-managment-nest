@@ -4,8 +4,7 @@
  * @Last Modified by: Ardrit Krasniqi ©
  * @Last Modified time: 2022-01-04 16:39:51
  */
-import { UserDataDto } from "src/auth/dto/user-data.dto";
-import { UserLoginDto } from "src/auth/dto/user-login.dto";
+import { UserDataDto } from "src/users/dto/user-data.dto";
 import { User } from "src/users/user.entity";
 
 export const toUserLoginDataDto = (data: User): UserDataDto => {

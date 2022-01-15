@@ -11,11 +11,12 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { PassportModule } from '@nestjs/passport';
 import { UsersModule } from 'src/users/users.module';
-import { AuthRepository } from './auth.repository';
+import { UserRepository } from 'src/users/user.repository';
 
 @Module({
 
   imports: [
+    UsersModule,
     PassportModule.register({
       defaultStrategy: 'jwt', 
       property: 'users', 
@@ -27,8 +28,7 @@ import { AuthRepository } from './auth.repository';
         expiresIn: process.env.EXPIRESIN,
       }
     }),
-    TypeOrmModule.forFeature([AuthRepository]),
-    UsersModule
+    TypeOrmModule.forFeature([UserRepository])
   ],
   controllers: [AuthController],
   providers: [AuthService]
