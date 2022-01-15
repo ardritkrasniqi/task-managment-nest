@@ -24,7 +24,6 @@ export class AuthService {
     private userRepository: UserRepository;
 
     constructor(
-        @InjectRepository(UserRepository)
         private readonly configService: ConfigService,
         private readonly connection: Connection,
         private jwtService: JwtService
@@ -56,7 +55,10 @@ export class AuthService {
         const expiresIn = this.configService.get('EXPIRES_IN');
 
         const user: JwtPayload = { email };
-        const accessToken = this.jwtService.sign(email);
+        const accessToken = this.jwtService.sign({email}, {
+            expiresIn: this.configService.get('EXPIRES_IN'),
+            secret: this.configService.get('TOKEN_SECRET_KEY')
+        });
         return {
             expiresIn,
             accessToken,
