@@ -20,12 +20,7 @@ import { UsersModule } from 'src/users/users.module';
       property: 'user',
       session: false,
     }),
-    JwtModule.register({
-      secret: process.env.SECRETKEY,
-      signOptions: {
-        expiresIn: process.env.EXPIRESIN,
-      },
-    }),
+    JwtModule.register({}),
   ],
   controllers: [AuthController],
   providers: [AuthService]
