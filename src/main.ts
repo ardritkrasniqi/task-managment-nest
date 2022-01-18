@@ -14,7 +14,7 @@ async function bootstrap() {
   const logger = new Logger('bootstrap');
 
   const app = await NestFactory.create(AppModule);
-  await app.listen(8000);
+  await app.listen(3030);
   
   logger.log(`Application listening on: ${await app.getUrl()}`)
 }

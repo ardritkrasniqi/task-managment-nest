@@ -4,7 +4,7 @@
  * @Last Modified by: Ardrit Krasniqi ©
  * @Last Modified time: 2022-01-04 16:49:54
  */
-import { Body, ClassSerializerInterceptor, Controller, Get, Param, Post, Res, StreamableFile, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, ClassSerializerInterceptor, Controller, Get, HttpCode, Param, Post, Res, StreamableFile, UsePipes, ValidationPipe } from '@nestjs/common';
 import { createReadStream } from 'fs';
 import { join } from 'path';
 import { User } from 'src/users/user.entity';
@@ -25,14 +25,17 @@ export class AuthController {
     getFile(): StreamableFile {
         const file = createReadStream(join(process.cwd(), '.env'));
         return new StreamableFile(file);
-      }
+    }
 
 
+
+
+    @HttpCode(200)
     @Post('/login')
     @UsePipes(ValidationPipe)
     login(
         @Body() userLoginDto: UserLoginDto
-    ): Promise<LoginStatus>{
+    ): Promise<LoginStatus> {
         return this.authService.login(userLoginDto);
     }
 
