@@ -51,11 +51,11 @@ export class AuthService {
     }
 
 
-    private _createToken({ email }: UserDataDto): any {
+    private _createToken({ id , email }: UserDataDto): any {
         const expiresIn = this.configService.get('EXPIRES_IN');
 
-        const user: JwtPayload = { email };
-        const accessToken = this.jwtService.sign({email}, {
+        const payload: JwtPayload = { id, email };
+        const accessToken = this.jwtService.sign({ payload }, {
             expiresIn: this.configService.get('EXPIRES_IN'),
             secret: this.configService.get('TOKEN_SECRET_KEY')
         });
