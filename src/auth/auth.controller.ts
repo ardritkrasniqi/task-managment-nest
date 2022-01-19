@@ -21,11 +21,11 @@ export class AuthController {
         private authService: AuthService,
     ) { }
 
-    @Get('/test')
-    getFile(): StreamableFile {
-        const file = createReadStream(join(process.cwd(), '.env'));
-        return new StreamableFile(file);
-    }
+    // @Get('/test')
+    // getFile(): StreamableFile {
+    //     const file = createReadStream(join(process.cwd(), '.env'));
+    //     return new StreamableFile(file);
+    // }
 
 
 
