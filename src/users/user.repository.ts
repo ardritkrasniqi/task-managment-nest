@@ -14,6 +14,7 @@ import { UserDataDto } from "src/users/dto/user-data.dto";
 import { RegisterUserDto } from "./dto/register-user.dto";
 import { RegistrationStatus } from "src/auth/interfaces/registration-status.interface";
 import PostgresErrorCodes from "src/database/postgresErrorCodes.enum";
+import { JwtPayload } from "src/auth/interfaces/jwt-payload.interface";
 
 
 @EntityRepository(User)
@@ -45,6 +46,10 @@ export class UserRepository extends Repository<User>{
         } else {
             return toUserLoginDataDto(user);
         }
+    }
+
+    async findByPayload({ id, email }: JwtPayload ) : Promise<UserDataDto> {
+        return await this.findOne({ where: { id, email } });
     }
 
 

@@ -4,7 +4,7 @@
  * @Last Modified by: Ardrit Krasniqi ©
  * @Last Modified time: 2022-01-04 16:51:19
  */
-import { Injectable, Req } from '@nestjs/common';
+import { Injectable, Req, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { RegisterUserDto } from '../users/dto/register-user.dto';
@@ -42,6 +42,18 @@ export class AuthService {
             email: user.email,
             ...token
         };
+    }
+
+
+    async validateUser(payload: JwtPayload): Promise<UserDataDto>{
+        const user = this.userRepository.findByPayload(payload);
+
+        // check if the user corresponds to the given payload from the token, if not throw an unauthenticated error
+        if(!user){
+            throw new UnauthorizedException('Invalid token!');
+        }
+
+        return user;
     }
 
 
