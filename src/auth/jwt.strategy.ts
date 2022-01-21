@@ -5,13 +5,12 @@ import { Strategy, ExtractJwt } from "passport-jwt";
 import { UserDataDto } from "src/users/dto/user-data.dto";
 import { UserRepository } from "src/users/user.repository";
 import { AuthService } from "./auth.service";
-import { JwtPayload } from "./interfaces/jwt-payload.interface";
+import JwtPayload from "./interfaces/jwt-payload.interface";
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy){
     constructor(
-        @InjectRepository(UserRepository)
-        private readonly userRepostiory: UserRepository
+        private readonly authService: AuthService
     ) {
         super({
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -23,8 +22,7 @@ export class JwtStrategy extends PassportStrategy(Strategy){
 
 
     async validate(payload: JwtPayload): Promise<UserDataDto> {
-            
-        const user = await this.userRepostiory.findByPayload(payload);
+        const user = await this.authService.validateUser(payload);
         if(!user){
             throw new UnauthorizedException("Invalid token!");
         }

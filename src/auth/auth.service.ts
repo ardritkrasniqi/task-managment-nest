@@ -12,11 +12,11 @@ import { UserDataDto } from '../users/dto/user-data.dto';
 import { UserLoginDto } from '../users/dto/user-login.dto';
 import { ConfigService } from '@nestjs/config';
 import { User } from 'src/users/user.entity';
-import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { RegistrationStatus } from './interfaces/registration-status.interface';
 import { LoginStatus } from './interfaces/login.interface';
 import { UserRepository } from 'src/users/user.repository';
 import { Connection } from 'typeorm';
+import JwtPayload from './interfaces/jwt-payload.interface';
 
 @Injectable()
 export class AuthService {
@@ -46,8 +46,7 @@ export class AuthService {
 
 
     async validateUser(payload: JwtPayload): Promise<UserDataDto>{
-        const user = this.userRepository.findByPayload(payload);
-
+        const user = await this.userRepository.findByPayload(payload);
         // check if the user corresponds to the given payload from the token, if not throw an unauthenticated error
         if(!user){
             throw new UnauthorizedException('Invalid token!');
@@ -67,8 +66,8 @@ export class AuthService {
         const expiresIn = this.configService.get('EXPIRES_IN');
 
         const payload: JwtPayload = { id, email };
-        const accessToken = this.jwtService.sign({ payload }, {
-            expiresIn: this.configService.get('EXPIRES_IN'),
+        const accessToken = this.jwtService.sign( payload , {
+            expiresIn: parseInt(this.configService.get('EXPIRES_IN')),
             secret: this.configService.get('TOKEN_SECRET_KEY')
         });
         return {

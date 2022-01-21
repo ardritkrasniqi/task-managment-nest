@@ -14,7 +14,7 @@ import { UserDataDto } from "src/users/dto/user-data.dto";
 import { RegisterUserDto } from "./dto/register-user.dto";
 import { RegistrationStatus } from "src/auth/interfaces/registration-status.interface";
 import PostgresErrorCodes from "src/database/postgresErrorCodes.enum";
-import { JwtPayload } from "src/auth/interfaces/jwt-payload.interface";
+import JwtPayload from "src/auth/interfaces/jwt-payload.interface";
 
 
 @EntityRepository(User)
