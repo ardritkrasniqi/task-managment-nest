@@ -7,7 +7,7 @@
 import { Body, ClassSerializerInterceptor, Controller, Get, HttpCode, Param, Post, Req, Res, StreamableFile, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 
 import { AuthService } from './auth.service';
-import { RegisterUserDto } from '../users/dto/register-user.dto';
+import { RegisterUserDto } from '../users/dto/register-user.dto'; 
 import { UserLoginDto } from '../users/dto/user-login.dto';
 import { RegistrationStatus } from './interfaces/registration-status.interface';
 import { LoginStatus } from './interfaces/login.interface';
