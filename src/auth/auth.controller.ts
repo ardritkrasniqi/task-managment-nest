@@ -11,25 +11,12 @@ import { RegisterUserDto } from '../users/dto/register-user.dto';
 import { UserLoginDto } from '../users/dto/user-login.dto';
 import { RegistrationStatus } from './interfaces/registration-status.interface';
 import { LoginStatus } from './interfaces/login.interface';
-import { AuthGuard } from '@nestjs/passport';
-import { GetUser } from './get-user.decorator';
-import { User } from 'src/users/user.entity';
 
 @Controller('auth')
 export class AuthController {
     constructor(
         private authService: AuthService,
     ) { }
-
-    @Post('/test')
-    @UseGuards(AuthGuard())
-    test(@GetUser() user: User){
-        console.log(user)
-    }
-    
-
-
-
 
     @HttpCode(200)
     @Post('/login')

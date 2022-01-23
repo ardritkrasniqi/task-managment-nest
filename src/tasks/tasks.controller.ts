@@ -4,7 +4,7 @@
  * @Last Modified by: Ardrit Krasniqi ©
  * @Last Modified time: 2021-12-30 17:39:24
  */
-import { Body, Controller, Delete, Get, Logger, Param, ParseIntPipe, Patch, Post, Query, UploadedFile, UseInterceptors, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Logger, Param, ParseIntPipe, Patch, Post, Query, UploadedFile, UseGuards, UseInterceptors, UsePipes, ValidationPipe } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { uptime } from 'process';
 import { CreateTaskDto } from './dto/create-task-dto';
@@ -13,10 +13,12 @@ import { TaskStatusValidationPipe } from './pipes/task-status-validation.pipe';
 import { TasksService } from './tasks.service';
 import { Task } from './task.entity';
 import { TaskStatus } from './task-status.enum';
+import { AuthGuard } from '@nestjs/passport';
 
 
 
 @Controller('/tasks')
+@UseGuards(AuthGuard())
 export class TasksController {
     private logger = new Logger('TasksController');
     
