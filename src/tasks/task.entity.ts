@@ -1,6 +1,8 @@
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from "typeorm";
 import { TaskStatus } from "./task-status.enum";
 
+
+//todo add user relationships to tasks
 @Entity()
 export class Task extends BaseEntity {
     @PrimaryGeneratedColumn()
