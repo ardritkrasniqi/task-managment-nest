@@ -20,8 +20,6 @@ import { AuthGuard } from '@nestjs/passport';
 @Controller('/tasks')
 @UseGuards(AuthGuard())
 export class TasksController {
-    private logger = new Logger('TasksController');
-    
     constructor(private tasksService: TasksService) { }
 
     
