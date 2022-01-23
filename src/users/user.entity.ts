@@ -5,7 +5,8 @@
  * @Last Modified time: 2022-01-04 17:08:36
  */
 
-import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from "typeorm";
+import { Task } from "src/tasks/task.entity";
+import { BaseEntity, Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from "typeorm";
 
 @Entity('users')
 @Unique(['email'])
@@ -58,6 +59,9 @@ export class User extends BaseEntity{
     })
     salt: string;
 
+
+    @OneToMany(type => Task, task => task.user, {eager: true})
+    tasks: Task[];
 
     @CreateDateColumn({
         type: "timestamp with time zone",
