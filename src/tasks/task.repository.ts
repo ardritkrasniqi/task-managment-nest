@@ -40,6 +40,8 @@ export class TaskRepository extends Repository<Task> {
         task.status = TaskStatus.OPEN;
         task.user = user;
         await task.save();
+        // remove the user property from task object
+        delete task.user
         return task;
     }
 
