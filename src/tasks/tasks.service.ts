@@ -4,7 +4,7 @@
  * @Last Modified by: Ardrit Krasniqi ©
  * @Last Modified time: 2021-12-10 23:23:36
  */
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 
 import { CreateTaskDto } from './dto/create-task-dto';
 import { GetTasksFilterDto } from './dto/get-tasks-filter-dto';
@@ -36,9 +36,15 @@ export class TasksService {
     }
 
 
-    async getTaskById(id: number): Promise<Task> {
-        const found = await this.taskRepository.findOneOrFail(id);
-        return found;
+    async getTaskById(
+        id: number, 
+        user: User
+        ): Promise<Task> {
+        const task = await this.taskRepository.findOne({where: {id, userId: user.id}});
+        if(!task){
+            throw new NotFoundException(`Task with ID "${id}" not found`)
+        }
+        return task;
     }
 
     async createTask(
@@ -50,15 +56,15 @@ export class TasksService {
 
 
 
-    async deleteTask(id: number): Promise<void> {
-        const result = await this.taskRepository.delete(id);
+    async deleteTask(id: number, user: User): Promise<void> {
+        const result = await this.taskRepository.delete({ id, userId: user.id});
         if (!result.affected){
-            throw new NotFoundException(`Task with ID ${id} does not exist!`);
+            throw new NotFoundException(`Task with ID "${id}" does not exist!`);
         } 
     }
 
-    async updateTaskStatus(id: number, status: TaskStatus): Promise<Task> {
-        const task = await this.getTaskById(id);
+    async updateTaskStatus(id: number, user: User,  status: TaskStatus): Promise<Task> {
+        const task = await this.getTaskById(id, user);
         task.status = status;
         await task.save();
         return task;
