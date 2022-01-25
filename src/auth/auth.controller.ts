@@ -4,7 +4,7 @@
  * @Last Modified by: Ardrit Krasniqi ©
  * @Last Modified time: 2022-01-04 16:49:54
  */
-import { Body, ClassSerializerInterceptor, Controller, Get, HttpCode, Param, Post, Req, Res, StreamableFile, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, ClassSerializerInterceptor, Controller, Get, HttpCode, HttpStatus, Param, Post, Req, Res, StreamableFile, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 
 import { AuthService } from './auth.service';
 import { RegisterUserDto } from '../users/dto/register-user.dto'; 
@@ -18,7 +18,7 @@ export class AuthController {
         private authService: AuthService,
     ) { }
 
-    @HttpCode(200)
+    @HttpCode(HttpStatus.OK)
     @Post('/login')
     @UsePipes(ValidationPipe)
     login(

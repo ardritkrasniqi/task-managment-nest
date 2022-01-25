@@ -30,8 +30,6 @@ export class TasksService {
         ): Promise<Task[]>{
         //get tasks either filtered or all
         const tasks = await this.taskRepository.getTasks(filterDto, user);
-
-
         return tasks;
     }
 
