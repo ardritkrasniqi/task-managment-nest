@@ -5,8 +5,6 @@
  * @Last Modified time: 2021-12-30 17:39:24
  */
 import { Body, Controller, Delete, Get, Logger, Param, ParseIntPipe, Patch, Post, Query, UploadedFile, UseGuards, UseInterceptors, UsePipes, ValidationPipe } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { uptime } from 'process';
 import { CreateTaskDto } from './dto/create-task-dto';
 import { GetTasksFilterDto } from './dto/get-tasks-filter-dto';
 import { TaskStatusValidationPipe } from './pipes/task-status-validation.pipe';
@@ -16,19 +14,26 @@ import { TaskStatus } from './task-status.enum';
 import { AuthGuard } from '@nestjs/passport';
 import { User } from 'src/users/user.entity';
 import { GetUser } from 'src/auth/get-user.decorator';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { GetAllTasksDto } from './dto/get-all-tasks-dto';
 
 
+
+@ApiTags('Tasks')
 
 @Controller('/tasks')
 @UseGuards(AuthGuard())
 export class TasksController {
     constructor(private tasksService: TasksService) { }
 
-    
+
     @Get()
+    @ApiResponse({
+        type: GetAllTasksDto
+    })
     getTasks(@Query(ValidationPipe) filterDto: GetTasksFilterDto,
-    @GetUser() user: User
-    ): Promise<Task[]> {
+        @GetUser() user: User
+    ): Promise<GetAllTasksDto> {
         return this.tasksService.getTasks(filterDto, user)
     }
 
@@ -36,7 +41,7 @@ export class TasksController {
     getTaskById(
         @Param('id', ParseIntPipe) id: number,
         @GetUser() user: User
-        ): Promise<Task> {
+    ): Promise<Task> {
         return this.tasksService.getTaskById(id, user);
     }
 
@@ -62,7 +67,7 @@ export class TasksController {
     deleteTask(
         @Param('id', ParseIntPipe) id: number,
         @GetUser() user: User
-        ): Promise<void> {
+    ): Promise<void> {
         return this.tasksService.deleteTask(id, user);
     }
 

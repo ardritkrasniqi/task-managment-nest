@@ -13,6 +13,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Task } from './task.entity';
 import { TaskStatus } from './task-status.enum';
 import { User } from 'src/users/user.entity';
+import { GetAllTasksDto } from './dto/get-all-tasks-dto';
 
 
 @Injectable()
@@ -27,10 +28,10 @@ export class TasksService {
     async getTasks(
         filterDto: GetTasksFilterDto,
         user: User
-        ): Promise<Task[]>{
+        ): Promise<GetAllTasksDto>{
         //get tasks either filtered or all
-        const tasks = await this.taskRepository.getTasks(filterDto, user);
-        return tasks;
+        return await this.taskRepository.getTasks(filterDto, user);
+        
     }
 
 
