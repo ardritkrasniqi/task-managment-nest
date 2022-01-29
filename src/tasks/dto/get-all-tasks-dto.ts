@@ -11,7 +11,7 @@ export class GetAllTasksDto{
     updated_at: string;
 
 
-    // todo assign the objects into array
+    // // todo assign the objects into array
     constructor(partial: Required<Task[]>){
         Object.assign(this, partial)
     }
