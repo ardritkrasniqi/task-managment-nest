@@ -1,6 +1,7 @@
 import { Module } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { DatabaseLogger } from "./database-logger";
 
 
 // a module for database connection, it is imported in app module
@@ -18,6 +19,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
                 database: configService.get('DB_NAME'),
                 entities: [__dirname + "/../**/*.entity.{js,ts}"], 
                 synchronize: true,
+                logger: new DatabaseLogger()
             })
         })
     ]
