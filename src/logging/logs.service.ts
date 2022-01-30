@@ -13,13 +13,13 @@ export  class LogsService {
 
 
     async createLog(log: CreateLogDto) {
-        const newLog = this.logRespository.create(log);
-        await this.logRespository.save(newLog, {
+        const createdLog = this.logRespository.create(log);
+        await this.logRespository.save(createdLog, {
             // data is to avoid infinite looping. Explanation: We store log in DB -> that store, stores another log and on and on and on :P
           data: {
             isCreatingLogs: true
           }
         });
-        return newLog;
+        return createdLog;
       }
 }
