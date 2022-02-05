@@ -8,8 +8,6 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Logger } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { doc } from 'prettier';
-import environmentLogLevels from './logging/get-log-levels-environment';
 import { CustomLogger } from './logging/custom-logger';
 
 async function bootstrap() {
