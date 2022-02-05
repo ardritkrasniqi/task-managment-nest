@@ -9,14 +9,16 @@ import { AppModule } from './app.module';
 import { Logger } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { doc } from 'prettier';
-import environmentLogLevels from './logging/getLogLevels';
+import environmentLogLevels from './logging/get-log-levels-environment';
+import { CustomLogger } from './logging/custom-logger';
 
 async function bootstrap() {
 
   const logger = new Logger('bootstrap');
   const app = await NestFactory.create(AppModule, {
-    logger: environmentLogLevels(process.env.NODE_ENV === 'production')
+    bufferLogs: true,
   });
+  app.useLogger(app.get(CustomLogger))
 
   const config = new DocumentBuilder()
     .setTitle('Tasks Example')

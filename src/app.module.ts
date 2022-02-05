@@ -12,6 +12,7 @@ import { UsersModule } from './users/users.module';
 import { DatabaseModule } from './database/database.module';
 import { EmailModule } from './email/email.module';
 import { LogsMiddleware } from './utils/logs.middleware';
+import { LoggingModule } from './logging/logging.module';
 
 @Module({
   imports: [
@@ -22,7 +23,8 @@ import { LogsMiddleware } from './utils/logs.middleware';
     AuthModule,
     UsersModule,
     DatabaseModule,
-    EmailModule
+    EmailModule,
+    LoggingModule
   ],
   providers: []
 })
