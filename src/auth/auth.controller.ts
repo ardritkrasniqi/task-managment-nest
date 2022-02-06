@@ -11,6 +11,9 @@ import { RegisterUserDto } from '../users/dto/register-user.dto';
 import { UserLoginDto } from '../users/dto/user-login.dto';
 import { RegistrationStatus } from './interfaces/registration-status.interface';
 import { LoginStatus } from './interfaces/login.interface';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
+
+@ApiTags('Auth')
 
 @Controller('auth')
 export class AuthController {
@@ -18,6 +21,10 @@ export class AuthController {
         private authService: AuthService,
     ) { }
 
+
+    @ApiResponse({
+       
+    })
     @HttpCode(HttpStatus.OK)
     @Post('/login')
     @UsePipes(ValidationPipe)
