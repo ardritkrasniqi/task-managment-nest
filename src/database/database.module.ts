@@ -19,7 +19,7 @@ import { DatabaseLogger } from "./database-logger";
                 database: configService.get('DB_NAME'),
                 entities: [__dirname + "/../**/*.entity.{js,ts}"], 
                 synchronize: true,
-                logger: new DatabaseLogger() // here its initialized the DB Logger
+                logger: new DatabaseLogger(false) // here its initialized the DB Logger
             })
         })
     ]

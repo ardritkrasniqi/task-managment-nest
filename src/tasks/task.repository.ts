@@ -13,7 +13,7 @@ export class TaskRepository extends Repository<Task> {
     async getTasks(
         taskFilterDto: GetTasksFilterDto,
         user: User
-        ): Promise<GetAllTasksDto>{
+        ): Promise<Task[]>{
         const { status, search } = taskFilterDto;
         const query = this.createQueryBuilder('tasks');
 
@@ -27,7 +27,7 @@ export class TaskRepository extends Repository<Task> {
             query.andWhere('tasks.title LIKE :search OR tasks.description LIKE :search', { search: `%${search}%` });
         }
         const tasks = await query.getMany();
-        return new GetAllTasksDto(tasks);
+        return tasks;
     }
 
     async createTask(

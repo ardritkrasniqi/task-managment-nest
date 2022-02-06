@@ -28,7 +28,7 @@ export class TasksService {
     async getTasks(
         filterDto: GetTasksFilterDto,
         user: User
-        ): Promise<GetAllTasksDto>{
+        ): Promise<Task[]>{
         //get tasks either filtered or all
         return await this.taskRepository.getTasks(filterDto, user);
         
