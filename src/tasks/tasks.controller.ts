@@ -28,10 +28,6 @@ export class TasksController {
 
 
     @Get()
-    // experimental feature of swagger
-    @ApiResponse({
-        type: GetAllTasksDto
-    })
     getTasks(@Query(ValidationPipe) filterDto: GetTasksFilterDto,
         @GetUser() user: User
     ): Promise<Task[]> {
@@ -44,6 +40,13 @@ export class TasksController {
         @GetUser() user: User
     ): Promise<Task> {
         return this.tasksService.getTaskById(id, user);
+    }
+
+    @Get('/slug')
+    getTaskBySlug(
+        @Param('slug', ParseIntPipe) slug: number,
+    ): void {
+       console.log(`${slug}`);
     }
 
     @Post()
