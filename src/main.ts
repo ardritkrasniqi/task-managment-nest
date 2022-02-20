@@ -16,6 +16,9 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     bufferLogs: true,
   });
+
+
+  app.connectMicroservice(Option); // todo check this because it does nto work
   app.useLogger(app.get(CustomLogger))
 
   const config = new DocumentBuilder()
