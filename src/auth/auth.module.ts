@@ -11,6 +11,7 @@ import { AuthService } from './auth.service';
 import { PassportModule } from '@nestjs/passport';
 import { UsersModule } from 'src/users/users.module';
 import { JwtStrategy } from './jwt.strategy';
+import { ClientProxyFactory, Transport } from '@nestjs/microservices';
 
 @Module({
 
@@ -27,9 +28,16 @@ import { JwtStrategy } from './jwt.strategy';
     AuthController
   ],
   providers: [
+    {
+      provide: 'MAIL_SERVICE',
+      useFactory: () =>
+        ClientProxyFactory.create({
+          transport: Transport.TCP,
+        }),
+    },
     AuthService, 
     AuthModule, 
-    JwtStrategy
+    JwtStrategy,
   ],
   exports: [
     JwtStrategy,
