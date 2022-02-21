@@ -9,6 +9,7 @@ import { AppModule } from './app.module';
 import { Logger } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { CustomLogger } from './logging/custom-logger';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
 
@@ -18,7 +19,15 @@ async function bootstrap() {
   });
 
 
-  app.connectMicroservice(Option); // todo check this because it does nto work
+  // Mailer microservice is connected here
+  const mailMicroserviceTcp =  app.connectMicroservice<MicroserviceOptions>({
+    transport: Transport.TCP,
+    options: {
+      port: 8875,
+    },
+  });
+
+
   app.useLogger(app.get(CustomLogger))
 
   const config = new DocumentBuilder()
@@ -29,6 +38,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
+  app.startAllMicroservices();  // lounches microservice instances gllobally
   await app.listen(3030);
 
   logger.log(`Application listening on: ${await app.getUrl()}`)
