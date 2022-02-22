@@ -4,7 +4,7 @@
  * @Last Modified by: Ardrit Krasniqi ©
  * @Last Modified time: 2022-01-04 16:51:19
  */
-import { Injectable, Req, UnauthorizedException } from '@nestjs/common';
+import { Inject, Injectable, Req, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { RegisterUserDto } from '../users/dto/register-user.dto';
@@ -17,6 +17,7 @@ import { LoginStatus } from './interfaces/login.interface';
 import { UserRepository } from 'src/users/user.repository';
 import { Connection } from 'typeorm';
 import JwtPayload from './interfaces/jwt-payload.interface';
+import { ClientProxy } from '@nestjs/microservices';
 
 @Injectable()
 export class AuthService {
@@ -24,6 +25,7 @@ export class AuthService {
     private userRepository: UserRepository;
 
     constructor(
+        @Inject('MAIL_SERVICE') private readonly client: ClientProxy,
         private readonly configService: ConfigService,
         private readonly connection: Connection,
         private jwtService: JwtService
@@ -58,7 +60,14 @@ export class AuthService {
 
 
     async registerUser(registerUserDto: RegisterUserDto): Promise<RegistrationStatus> {
-        return await this.userRepository.registerUser(registerUserDto);
+        const userRegistration = await this.userRepository.registerUser(registerUserDto);
+
+        if (userRegistration['status'] == true){
+            // user has been registered , send the activation email from the microservice
+            const confirmUrl: string = this.configService.get('BASE_URL') + "verify?token=1234"; // token is hardcoded , TBD
+ 
+        }
+        return userRegistration;
     }
 
 
