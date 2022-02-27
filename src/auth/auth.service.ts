@@ -25,7 +25,8 @@ export class AuthService {
     private userRepository: UserRepository;
 
     constructor(
-        @Inject('MAIL_SERVICE') private readonly client: ClientProxy,
+        @Inject('MAIL_SERVICE') 
+        private readonly client: ClientProxy,
         private readonly configService: ConfigService,
         private readonly connection: Connection,
         private jwtService: JwtService
@@ -65,6 +66,7 @@ export class AuthService {
         if (userRegistration['status'] == true){
             // user has been registered , send the activation email from the microservice
             const confirmUrl: string = this.configService.get('BASE_URL') + "verify?token=1234"; // token is hardcoded , TBD
+            this.client.send<string, string>();
  
         }
         return userRegistration;
