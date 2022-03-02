@@ -66,7 +66,7 @@ export class AuthService {
         if (userRegistration['status'] == true){
             // user has been registered , send the activation email from the microservice
             const confirmUrl: string = this.configService.get('BASE_URL') + "verify?token=1234"; // token is hardcoded , TBD
-            this.client.send<string, string>();
+            this.client.emit({cmd: 'send-message'}, {userRegistration, confirmUrl})
  
         }
         return userRegistration;
